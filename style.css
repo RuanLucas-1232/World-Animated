@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* O position absolute é usado para evitar de criar elementos separados do desenho da lampada */
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #222;
+}
+
+.lampada{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background-color: #444;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+body.ligar .lampada::after{
+    /* semelhante ao before, mas neste o pseudo elemento fica após a tag, já o before é antes */
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: #fff;
+    border-radius: 50%;
+    filter: blur(22px);
+}
+
+.lampada::before{
+    /* O before funciona se tiver um content (conteúdo) preenchido antes da tag div que tem a class lampada */
+    /* Usa-se o before quando não se quer criar um elemento diretamente no html. Ele fica como um elemento interno a tag que o gerou.
+    Nesse caso a tag que tem a class lampada */
+    content: '';
+    position:absolute;
+    left: 22.5px;
+    top: -50px;
+    width: 35px;
+    height: 80px;
+    background: #444;
+    border-top: 30px solid black;
+    border-radius: 10px;
+}
+
+.lampada span:nth-child(1){
+    position: absolute;
+    top: -16px;
+    left: -4px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    transform: rotate(342deg);
+    box-shadow: 20px 20px 0px 10px #444;
+    border-bottom-right-radius: 40px;
+}
+
+.lampada span:nth-child(2){
+    position: absolute;
+    top: -16px;
+    left: 54px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    transform: rotate(469deg);
+    box-shadow: 20px 20px 0px 10px #444;
+    border-bottom-right-radius: 40px;
+}
+
+.fio{
+    position: absolute;
+    left: calc(50% - 2px);
+    width: 4px;
+    height: 60vh;
+    background: black;
+    bottom: 50%;
+    z-index: 1;
+}
+
+.interruptor{
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(#eee, #ccc, #eee);
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.interruptor .btn{
+    position: relative;/*Fixa a posição do interruptor em relação lampada */
+    width: 25px;
+    height: 40px;
+    background: linear-gradient(#777, #fff, #777);
+    border-radius: 6px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.interruptor .btn::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 85%;
+    background: linear-gradient(#fff, #fff);
+    border-radius: 4px;
+}
+/* Antes de ler o que está abaixo: uma class pai pode alterar as propriedades da class filho, além das suas propriedades particulares. Isso se aplica
+as tags também, que são usadas como seletores css.  */
+/* A estrutura abaixo faz com que a class ligar herde as propriedade do pseudo elemento da class bt.
+Como a class btn não foi chamada sozinha, e para que ela não fique vazia, ela recebe as propriedades das classes filhos, ou seja das 
+tags filhas da tag body, que recebe a class ligar.  */
+/* A class ligar só alterou o pseudo elemento por ter sido declarado o caminho da herança. class ligar -> class interruptor ->class btn::before.*/
+.ligar .interruptor .btn::before{
+    top: 15%;
+}
+
+/* se a class estiver junto do elemento significa de que é dele, mas se não é da tag filho. */
+body.ligar{
+    background: radial-gradient(#555, #111);
+}
+
+#audio{
+    display: none;
+}
